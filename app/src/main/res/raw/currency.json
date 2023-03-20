@@ -1,0 +1,10 @@
+{
+  "data":[
+    { "currencyName":"US Dollar", "currencyIcon":"$" },
+    { "currencyName":"Euro", "currencyIcon":"€" },
+    { "currencyName":"Turkish Lira", "currencyIcon":"₺" },
+    { "currencyName":"GBP", "currencyIcon":"£" },
+    { "currencyName":"Indian Rupee", "currencyIcon":"₹" }
+  ]
+
+}
