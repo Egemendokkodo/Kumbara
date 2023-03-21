@@ -15,6 +15,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.uygulamalarim.kumbara.Adapter.CurrencyAdapter
 import com.uygulamalarim.kumbara.Model.Currency
+import com.uygulamalarim.kumbara.Model.CurrencyList
 import com.uygulamalarim.kumbara.R
 import kotlinx.android.synthetic.main.alertdialoglayout.view.*
 import kotlinx.android.synthetic.main.fragment_landing.*
@@ -100,4 +101,3 @@ class LandingFragment : Fragment() {
 
 
 }
-data class CurrencyList(val data: List<Currency>)

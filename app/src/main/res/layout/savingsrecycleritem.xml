@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#f5f5f5"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/savingtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Laptop"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:text="You're off to great start!"
+                android:textColor="#1c1c1c" />
+
+            <TextView
+                android:id="@+id/howmuchsaved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Currently saved $190 out of $13996."
+                android:textColor="#1c1c1c" />
+
+            <TextView
+                android:id="@+id/howmanyday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="You have until 31/03/2024 (384) days left."
+                android:textColor="#1c1c1c" />
+
+            <TextView
+                android:id="@+id/howmuchsavebytimebtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You need to save around $169.72/day, $1,203/week, $5,416.67/month."
+                android:textColor="#1c1c1c" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/depositbtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="DEPOSIT"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/withdrawbtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="WITHDRAW"
+                        android:textColor="#1c1c1c"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/infobtn"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="#f5f5f5"
+                        android:src="@drawable/ic_baseline_info"
+                        android:text="Button" />
+
+                    <ImageButton
+                        android:id="@+id/editbtn"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="#f5f5f5"
+                        android:src="@drawable/ic_baseline_mode_edit" />
+
+                    <ImageButton
+                        android:id="@+id/deletebtn"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="#f5f5f5"
+                        android:src="@drawable/ic_baseline_delete" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
