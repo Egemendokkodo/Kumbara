@@ -17,12 +17,14 @@ import com.uygulamalarim.kumbara.Adapter.CurrencyAdapter
 import com.uygulamalarim.kumbara.Model.Currency
 import com.uygulamalarim.kumbara.R
 import kotlinx.android.synthetic.main.alertdialoglayout.view.*
+import kotlinx.android.synthetic.main.fragment_landing.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 class LandingFragment : Fragment() {
 
     private lateinit var pickedCurrency:String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -40,7 +42,7 @@ class LandingFragment : Fragment() {
             val inflater = LayoutInflater.from(context)
             val dialogLayout = inflater.inflate(R.layout.alertdialoglayout, null)
             val recycler = dialogLayout.findViewById<RecyclerView>(R.id.dialogrecycler)
-
+            println("sa")
             val currencyList = readJson()
             val currencyAdapter = CurrencyAdapter(currencyList)
 
