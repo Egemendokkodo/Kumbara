@@ -7,4 +7,11 @@
     <string name="saving_goals">Saving Goals</string>
     <string name="new_goal">New Goal</string>
     <string name="no_saving_goals_set">No Saving Goals Set.</string>
+    <string name="it_s_time_to_save">It\'s time to save!</string>
+    <string name="notes_optional">Notes (Optional)</string>
+    <string name="set_new_saving_goal">Set New Saving Goal</string>
+    <string name="deadline_optional">Deadline (Optional)</string>
+    <string name="target_amount">Target Amount</string>
+    <string name="goal_title">Goal Title</string>
+    <string name="you_don_t_have_to_see_the_whole_staircase_just_ntake_the_first_step_martin_luther_king_jr">You don\'t have to see the whole staircase, just \ntake the first step. -Martin Luther King, Jr.</string>
 </resources>
