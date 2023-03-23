@@ -61,15 +61,7 @@ class MainFragment : Fragment() {
         fragmentTransaction.commit()
     }
 
-    override fun onPause() {
-        super.onPause()
-        changeFragment(MainFragment())
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
 
 
 

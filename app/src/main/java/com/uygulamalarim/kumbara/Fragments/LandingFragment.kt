@@ -2,17 +2,17 @@ package com.uygulamalarim.kumbara.Fragments
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.uygulamalarim.kumbara.Adapter.CurrencyAdapter
 import com.uygulamalarim.kumbara.Model.Currency
 import com.uygulamalarim.kumbara.Model.CurrencyList
@@ -36,8 +36,20 @@ class LandingFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreferencesForCurrencyIcon = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferencesForCurrencyName = requireActivity().getSharedPreferences("MyPrefs2", Context.MODE_PRIVATE)
+        val currencyIcon = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE).getString("myString", "")
+        val currencyName = requireActivity().getSharedPreferences("MyPrefs2", Context.MODE_PRIVATE).getString("currencyName", "")
+
+        if(!currencyIcon.isNullOrEmpty()|| !currencyName.isNullOrEmpty()){
+            currencyPicker.setText(currencyName.toString()+" "+currencyIcon.toString())
+        }
+
+
         val getstarted=view.findViewById<Button>(R.id.getStartedBtn)
         val currencyPicker=view.findViewById<Button>(R.id.currencyPicker)
+
         currencyPicker.setOnClickListener{
             val builder = AlertDialog.Builder(context)
             val inflater = LayoutInflater.from(context)
@@ -54,7 +66,11 @@ class LandingFragment : Fragment() {
                         val selectedCurrency = currencyList[selectedPosition]
                         //TODO: SEÇİLMİŞ CURRENCY BURADA
                         pickedCurrency=selectedCurrency.currencyName+" "+selectedCurrency.currencyIcon
-                        currencyPicker.setText(selectedCurrency.currencyName+" "+selectedCurrency.currencyIcon)
+                        sharedPreferencesForCurrencyIcon.edit().putString("myString", "${selectedCurrency.currencyIcon}").apply()
+                        sharedPreferencesForCurrencyName.edit().putString("currencyName","${selectedCurrency.currencyName}").apply()
+                        currencyPicker.setText(pickedCurrency)
+
+
                         }
                 }
                 setNegativeButton("Cancel") { dialog, which ->

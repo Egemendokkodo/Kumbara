@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.PorterDuff
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,12 +48,14 @@ class RecyclerAdapter(private val context: Context) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val currencyType = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE).getString("myString", "")
         val db = KumbaraDatabaseHelper(context)
         val cursor = db.getAllData()
 
+
         if (cursor!!.moveToPosition(position)) {
             holder.savingtitle.text = cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_TITLE))
-            holder.howmuchsaved.text = "Currently saved $${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_SAVED_MONEY))} out of $${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))}"
+            holder.howmuchsaved.text = "Currently saved ${currencyType}${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_SAVED_MONEY))} out of ${currencyType}${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))}"
             if(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE)).isNullOrEmpty()){
                 holder.howmanyday.text ="You have not entered a deadline."
             }else{
