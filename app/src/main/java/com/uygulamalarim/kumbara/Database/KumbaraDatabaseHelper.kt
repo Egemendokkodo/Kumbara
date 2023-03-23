@@ -70,10 +70,16 @@ class KumbaraDatabaseHelper(context: Context) :
         val db = this.readableDatabase
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
     }
-    fun updateSavedMoney(title: String, amount: Double) {
+    fun depositMoney(title: String, amount: Double) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(COLUMN_SAVED_MONEY, getSavedMoney(title) + amount)
+        db.update(TABLE_NAME, contentValues, "$COLUMN_TITLE=?", arrayOf(title))
+    }
+    fun withdrawMoney(title: String, amount: Double) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COLUMN_SAVED_MONEY, getSavedMoney(title) - amount)
         db.update(TABLE_NAME, contentValues, "$COLUMN_TITLE=?", arrayOf(title))
     }
     fun getSavedMoney(title: String): Double {

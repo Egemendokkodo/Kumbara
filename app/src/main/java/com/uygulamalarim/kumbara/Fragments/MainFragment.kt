@@ -12,6 +12,7 @@ import com.uygulamalarim.kumbara.Adapter.RecyclerAdapter
 import com.uygulamalarim.kumbara.R
 import kotlinx.android.synthetic.main.fragment_landing.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_landing.animationView as animationView1
 
 class MainFragment : Fragment() {
     private lateinit var savingsrecycler:RecyclerView
@@ -39,6 +40,15 @@ class MainFragment : Fragment() {
         savingsrecycler.adapter = recyclerAdapter
         savingsrecycler.layoutManager = LinearLayoutManager(requireContext())
 
+        if(recyclerAdapter.itemCount<=0){
+            nosaving.visibility=View.VISIBLE
+            yessaving.visibility=View.GONE
+            animationView.playAnimation()
+        }else{
+            nosaving.visibility=View.GONE
+            yessaving.visibility=View.VISIBLE
+            animationView.pauseAnimation()
+        }
         newgoalbtn.setOnClickListener{
             changeFragment(AddFragment())
         }

@@ -3,23 +3,18 @@ package com.uygulamalarim.kumbara.Adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper
 import com.uygulamalarim.kumbara.Fragments.MainFragment
 import com.uygulamalarim.kumbara.R
-import org.w3c.dom.Text
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import kotlin.reflect.typeOf
 
 class RecyclerAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
@@ -63,7 +58,7 @@ class RecyclerAdapter(private val context: Context) :
             }
             holder.progressBar.max=cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT)).toInt()
             holder.progressBar.progress=cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_SAVED_MONEY)).toInt()
-        //holder.howmuchsavebytime.text = String.format(cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT)), cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE)))
+            //holder.howmuchsavebytime.text = "You need to save around ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()}/day, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/7)}/week, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/30)}/month."
         }
 
 
@@ -79,7 +74,7 @@ class RecyclerAdapter(private val context: Context) :
                         Toast.makeText(context, "Please enter the amount.", Toast.LENGTH_SHORT).show()
                     } else {
                         val convertedamount = enteredamount.text.toString().toDoubleOrNull() ?: 0.0
-                        db.updateSavedMoney(clickeditem,convertedamount)
+                        db.depositMoney(clickeditem,convertedamount)
                         notifyDataSetChanged()
                     }
                 }
@@ -95,7 +90,27 @@ class RecyclerAdapter(private val context: Context) :
 
 
         holder.withdrawbtn.setOnClickListener {
-            // withdraw button click action
+            val clickeditem = holder.savingtitle.text.toString()
+            val builder = AlertDialog.Builder(context)
+            val inflater = LayoutInflater.from(context)
+            val dialogLayout = inflater.inflate(R.layout.alertwithdrawlayout, null)
+            val enteredamount = dialogLayout.findViewById<TextInputEditText>(R.id.enteramount)
+            with(builder) {
+                setPositiveButton("Confirm") { dialog, which ->
+                    if (enteredamount.text.isNullOrEmpty()) {
+                        Toast.makeText(context, "Please enter the amount.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val convertedamount = enteredamount.text.toString().toDoubleOrNull() ?: 0.0
+                        db.withdrawMoney(clickeditem,convertedamount)
+                        notifyDataSetChanged()
+                    }
+                }
+                setNegativeButton("Cancel") { dialog, which ->
+                    dialog.dismiss()
+                }
+                setView(dialogLayout)
+            }
+            builder.show()
         }
 
         holder.infobtn.setOnClickListener {
@@ -107,7 +122,17 @@ class RecyclerAdapter(private val context: Context) :
         }
 
         holder.deletebtn.setOnClickListener {
-            // delete button click action
+            val clickeditem = holder.savingtitle.text.toString()
+            AlertDialog.Builder(context)
+                .setTitle("Are You Sure?")
+                .setMessage("This action will delete your saving goal.")
+                .setPositiveButton("Yes"){ dialog, which ->
+                    db.deleteSavingsByTitle(clickeditem)
+                    notifyDataSetChanged()
+                    MainFragment()
+                }.setNegativeButton("No"){dialog,which->
+                    dialog.dismiss()
+                }.show()
         }
 
         cursor.close()
@@ -124,7 +149,7 @@ class RecyclerAdapter(private val context: Context) :
     fun howManyDaysLeft(date:String):String{
         val today = LocalDate.now()
 
-        val date = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/M/yyyy"))
+        val date = LocalDate.parse(date, DateTimeFormatter.ofPattern("d/M/yyyy"))
         val daysLeft = ChronoUnit.DAYS.between(today, date)
 
 
