@@ -3,10 +3,12 @@ package com.uygulamalarim.kumbara.Adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper
@@ -58,7 +60,14 @@ class RecyclerAdapter(private val context: Context) :
             }
             holder.progressBar.max=cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT)).toInt()
             holder.progressBar.progress=cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_SAVED_MONEY)).toInt()
-            //holder.howmuchsavebytime.text = "You need to save around ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()}/day, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/7)}/week, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/30)}/month."
+            if(holder.progressBar.progress!=holder.progressBar.max){
+                val color = ContextCompat.getColor(context, R.color.my_color)
+                holder.progressBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+            }else{
+                val color = ContextCompat.getColor(context, R.color.my_color2)
+                holder.progressBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+            }
+        //holder.howmuchsavebytime.text = "You need to save around ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()}/day, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/7)}/week, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/30)}/month."
         }
 
 
