@@ -67,7 +67,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/goalTitle"
+                    android:id="@+id/textInputEditText"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
@@ -86,14 +86,14 @@
                     app:startIconDrawable="@drawable/piggy_bank">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditText"
+                        android:id="@+id/goalTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="20" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/targetAmount"
+                    android:id="@+id/textInputEditText2"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
@@ -110,13 +110,14 @@
                     app:startIconDrawable="@drawable/money_bag">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditText2"
+                        android:inputType="number"
+                        android:id="@+id/targetAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/deadline"
+                    android:id="@+id/textInputEditText3"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
@@ -131,13 +132,14 @@
                     app:startIconDrawable="@drawable/deadline">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditText3"
+                        android:inputType="date"
+                        android:id="@+id/deadline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/notes"
+                    android:id="@+id/textInputEditText4"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
@@ -152,13 +154,14 @@
                     app:startIconDrawable="@drawable/write">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditText4"
+                        android:id="@+id/notes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
+                    android:id="@+id/saveGoal"
                     android:layout_width="340dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

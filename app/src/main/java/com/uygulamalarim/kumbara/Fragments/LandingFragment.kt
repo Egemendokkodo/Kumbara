@@ -43,7 +43,6 @@ class LandingFragment : Fragment() {
             val inflater = LayoutInflater.from(context)
             val dialogLayout = inflater.inflate(R.layout.alertdialoglayout, null)
             val recycler = dialogLayout.findViewById<RecyclerView>(R.id.dialogrecycler)
-            println("sa")
             val currencyList = readJson()
             val currencyAdapter = CurrencyAdapter(currencyList)
 

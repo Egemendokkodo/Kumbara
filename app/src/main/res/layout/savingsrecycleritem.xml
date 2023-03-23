@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -62,7 +63,7 @@
                 android:textColor="#1c1c1c" />
 
             <TextView
-                android:id="@+id/howmuchsavebytimebtn"
+                android:id="@+id/howmuchsavebytime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="You need to save around $169.72/day, $1,203/week, $5,416.67/month."
