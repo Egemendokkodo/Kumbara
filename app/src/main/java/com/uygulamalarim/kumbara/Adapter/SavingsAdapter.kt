@@ -8,9 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper
+import com.uygulamalarim.kumbara.Fragments.MainFragment
 import com.uygulamalarim.kumbara.R
 import org.w3c.dom.Text
 import java.time.LocalDate
@@ -64,19 +67,20 @@ class RecyclerAdapter(private val context: Context) :
         }
 
 
-
         holder.depositbtn.setOnClickListener {
+            val clickeditem = holder.savingtitle.text.toString()
             val builder = AlertDialog.Builder(context)
             val inflater = LayoutInflater.from(context)
             val dialogLayout = inflater.inflate(R.layout.alertdepositlayout, null)
-            val enteramount=dialogLayout.findViewById<TextInputEditText>(R.id.enteramount)
+            val enteredamount = dialogLayout.findViewById<TextInputEditText>(R.id.enteramount)
             with(builder) {
-
                 setPositiveButton("Confirm") { dialog, which ->
-                    if(enteramount.text.isNullOrEmpty()){
+                    if (enteredamount.text.isNullOrEmpty()) {
                         Toast.makeText(context, "Please enter the amount.", Toast.LENGTH_SHORT).show()
-                    }else{
-
+                    } else {
+                        val convertedamount = enteredamount.text.toString().toDoubleOrNull() ?: 0.0
+                        db.updateSavedMoney(clickeditem,convertedamount)
+                        notifyDataSetChanged()
                     }
                 }
                 setNegativeButton("Cancel") { dialog, which ->
@@ -84,7 +88,11 @@ class RecyclerAdapter(private val context: Context) :
                 }
                 setView(dialogLayout)
             }
+            builder.show()
+
+
         }
+
 
         holder.withdrawbtn.setOnClickListener {
             // withdraw button click action
@@ -105,6 +113,7 @@ class RecyclerAdapter(private val context: Context) :
         cursor.close()
         db.close()
     }
+
 
 
 
