@@ -147,22 +147,27 @@ class RecyclerAdapter(private val context: Context) :
                 val editDeadline=dialogLayout.findViewById<TextInputEditText>(R.id.editdeadline)
                 val editNotes=dialogLayout.findViewById<TextInputEditText>(R.id.editnotes)
                 val editGoalBtn=dialogLayout.findViewById<Button>(R.id.editsaveGoal)
+                val editBackButton=dialogLayout.findViewById<ImageButton>(R.id.editbackbtn)
                 editgoalTitle.text= Editable.Factory.getInstance().newEditable(oldName)
                 editTargetAmount.text= Editable.Factory.getInstance().newEditable(oldAmount.toString())
                 editDeadline.text= Editable.Factory.getInstance().newEditable(oldDeadline)
                 editNotes.text= Editable.Factory.getInstance().newEditable(oldNotes)
 
                 editGoalBtn.setOnClickListener {
-                    db.editGoal(holder.id.text.toString().toInt(),editgoalTitle.text.toString(),editTargetAmount.text.toString(),editDeadline.text.toString(),editNotes.text.toString())
-                    notifyDataSetChanged()
-                    alertDialog.dismiss()
-                    Toast.makeText(context, "Edited Successfully", Toast.LENGTH_SHORT).show()
+                    if (editgoalTitle.text.toString().isNullOrEmpty()||editTargetAmount.text.toString().isNullOrEmpty()){
+                        Toast.makeText(context, "Please input all the required fields.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        db.editGoal(holder.id.text.toString().toInt(),editgoalTitle.text.toString(),editTargetAmount.text.toString(),editDeadline.text.toString(),editNotes.text.toString())
+                        notifyDataSetChanged()
+                        alertDialog.dismiss()
+                        Toast.makeText(context, "Edited Successfully", Toast.LENGTH_SHORT).show()
+                    }
+
 
                 }
-
-
-
-
+                editBackButton.setOnClickListener {
+                    alertDialog.dismiss()
+                }
 
             }
 
