@@ -21,4 +21,5 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+
 }

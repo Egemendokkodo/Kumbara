@@ -37,18 +37,6 @@ class KumbaraDatabaseHelper(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
         onCreate(db)
     }
-    fun updateSavings(id: Long, title: String, amount: Double, deadline: String?, notes: String?, savedMoney: Double) {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_TITLE, title)
-            put(COLUMN_AMOUNT, amount)
-            put(COLUMN_DEADLINE, deadline)
-            put(COLUMN_NOTES, notes)
-            put(COLUMN_SAVED_MONEY, savedMoney)
-        }
-        db.update(TABLE_NAME, values, "$COLUMN_ID=?", arrayOf(id.toString()))
-        db.close()
-    }
     fun deleteSavingsByTitle(title: String) {
         val db = this.writableDatabase
         db.delete(TABLE_NAME, "$COLUMN_TITLE=?", arrayOf(title))
@@ -69,6 +57,10 @@ class KumbaraDatabaseHelper(context: Context) :
     fun getAllData(): Cursor? {
         val db = this.readableDatabase
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+    }
+    fun showSavingsById(id:Int):Cursor{
+        val db=this.readableDatabase
+        return db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID=$id",null)
     }
     fun depositMoney(title: String, amount: Double) {
         val db = this.writableDatabase
@@ -92,6 +84,17 @@ class KumbaraDatabaseHelper(context: Context) :
         }
         cursor.close()
         return savedMoney
+    }
+    fun editGoal(id:Int,title: String, amount: String, deadline: String?, notes: String?){
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COLUMN_TITLE,title)
+        contentValues.put(COLUMN_AMOUNT,amount)
+        contentValues.put(COLUMN_DEADLINE,deadline)
+        contentValues.put(COLUMN_NOTES,notes)
+        val selection = "$COLUMN_ID = ?"
+        val selectionArgs = arrayOf(id.toString())
+        db.update(TABLE_NAME, contentValues, selection, selectionArgs)
     }
 
 

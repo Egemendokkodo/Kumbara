@@ -20,6 +20,7 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
     }
 
     override fun onCreateView(
@@ -35,6 +36,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireFragmentManager().beginTransaction().detach(this).attach(this).commit()
+
         savingsrecycler = requireView().findViewById(R.id.savingsrecycler)
         recyclerAdapter = RecyclerAdapter(requireContext())
         savingsrecycler.adapter = recyclerAdapter
@@ -49,6 +53,9 @@ class MainFragment : Fragment() {
             yessaving.visibility=View.VISIBLE
             animationView.pauseAnimation()
         }
+
+
+
         newgoalbtn.setOnClickListener{
             changeFragment(AddFragment())
         }

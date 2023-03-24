@@ -119,7 +119,7 @@ class AddFragment : Fragment(){
                         val savedMoney = if (savedMoneyIndex != -1) cursor.getDouble(savedMoneyIndex) else -1.0
 
 
-                        Log.d("DATABASE RESPONSE", "ID: $id, Title: $title, Amount: $amount, Deadline: $deadline, Notes: $notes, Saved Money: $savedMoney")
+                        Log.d("DATABASE RESPONSE FOR EDİT PAGE", "ID: $id, Title: $title, Amount: $amount, Deadline: $deadline, Notes: $notes, Saved Money: $savedMoney")
                     } while (cursor.moveToNext())
                 }
 
@@ -135,6 +135,7 @@ class AddFragment : Fragment(){
 
 
 
+
     }
 
 
@@ -144,6 +145,8 @@ class AddFragment : Fragment(){
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+
+
 
 
 }

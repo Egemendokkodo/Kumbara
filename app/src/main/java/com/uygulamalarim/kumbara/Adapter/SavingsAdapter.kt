@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.PorterDuff
-import android.util.Log
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +35,7 @@ class RecyclerAdapter(private val context: Context) :
         val infobtn:ImageButton=view.findViewById(R.id.infobtn)
         val editbtn:ImageButton=view.findViewById(R.id.editbtn)
         val deletebtn:ImageButton=view.findViewById(R.id.deletebtn)
-
-
-
+        val id:TextView=view.findViewById(R.id.id)
 
     }
 
@@ -54,6 +52,7 @@ class RecyclerAdapter(private val context: Context) :
 
 
         if (cursor!!.moveToPosition(position)) {
+            holder.id.text=cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_ID))
             holder.savingtitle.text = cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_TITLE))
             holder.howmuchsaved.text = "Currently saved ${currencyType}${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_SAVED_MONEY))} out of ${currencyType}${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))}"
             if(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE)).isNullOrEmpty()){
@@ -126,11 +125,47 @@ class RecyclerAdapter(private val context: Context) :
         }
 
         holder.infobtn.setOnClickListener {
-            // info button click action
+
         }
 
         holder.editbtn.setOnClickListener {
-            // edit button click action
+
+            val savingsCursor = db.showSavingsById(holder.id.text.toString().toInt())
+            if (savingsCursor.moveToFirst()) {
+                val oldName = savingsCursor.getString(savingsCursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_TITLE))
+                val oldAmount = savingsCursor.getDouble(savingsCursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))
+                val oldDeadline=savingsCursor.getString(savingsCursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))
+                val oldNotes=savingsCursor.getString(savingsCursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_NOTES))
+
+                val builder = AlertDialog.Builder(context)
+                val inflater = LayoutInflater.from(context)
+                val dialogLayout = inflater.inflate(R.layout.editpagelayout, null)
+                val alertDialog = builder.setView(dialogLayout).show()
+
+                val editgoalTitle=dialogLayout.findViewById<TextInputEditText>(R.id.editGoalTitle)
+                val editTargetAmount=dialogLayout.findViewById<TextInputEditText>(R.id.edittargetAmount)
+                val editDeadline=dialogLayout.findViewById<TextInputEditText>(R.id.editdeadline)
+                val editNotes=dialogLayout.findViewById<TextInputEditText>(R.id.editnotes)
+                val editGoalBtn=dialogLayout.findViewById<Button>(R.id.editsaveGoal)
+                editgoalTitle.text= Editable.Factory.getInstance().newEditable(oldName)
+                editTargetAmount.text= Editable.Factory.getInstance().newEditable(oldAmount.toString())
+                editDeadline.text= Editable.Factory.getInstance().newEditable(oldDeadline)
+                editNotes.text= Editable.Factory.getInstance().newEditable(oldNotes)
+
+                editGoalBtn.setOnClickListener {
+                    db.editGoal(holder.id.text.toString().toInt(),editgoalTitle.text.toString(),editTargetAmount.text.toString(),editDeadline.text.toString(),editNotes.text.toString())
+                    notifyDataSetChanged()
+                    alertDialog.dismiss()
+                    Toast.makeText(context, "Edited Successfully", Toast.LENGTH_SHORT).show()
+
+                }
+
+
+
+
+
+            }
+
         }
 
         holder.deletebtn.setOnClickListener {
@@ -167,6 +202,7 @@ class RecyclerAdapter(private val context: Context) :
 
         return daysLeft.toString()
     }
+
 
 
 

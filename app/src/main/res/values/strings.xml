@@ -17,4 +17,8 @@
     <string name="enter_amount">Enter Amount</string>
     <string name="awesome_enter_amount">Awesome! enter amount</string>
     <string name="cool_enter_amount">Cool! enter amount</string>
+    <string name="edit_goal">Edit Goal</string>
+    <string name="edit_goal2">Edit Goal</string>
+    <string name="edit_goal3">Edit Goal</string>
+    <string name="edit_your_goal">Edit Your Goal</string>
 </resources>
