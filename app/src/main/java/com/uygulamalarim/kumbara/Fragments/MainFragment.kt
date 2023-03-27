@@ -1,18 +1,14 @@
 package com.uygulamalarim.kumbara.Fragments
 
 import android.os.Bundle
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.uygulamalarim.kumbara.Activity.MainActivity
 import com.uygulamalarim.kumbara.Adapter.RecyclerAdapter
 import com.uygulamalarim.kumbara.R
-import kotlinx.android.synthetic.main.fragment_landing.*
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.fragment_landing.animationView as animationView1
 
 class MainFragment : Fragment() {
     private lateinit var savingsrecycler:RecyclerView
@@ -56,11 +52,11 @@ class MainFragment : Fragment() {
 
 
 
-        newgoalbtn.setOnClickListener{
-            changeFragment(AddFragment())
-        }
+
+
 
     }
+
 
     private fun changeFragment(fragment: Fragment) {
         val fragmentTransaction = getParentFragmentManager().beginTransaction()

@@ -18,6 +18,8 @@ import com.uygulamalarim.kumbara.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RecyclerAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
@@ -69,6 +71,7 @@ class RecyclerAdapter(private val context: Context) :
                 val color = ContextCompat.getColor(context, R.color.my_color2)
                 holder.progressBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
             }
+            holder.howmuchsavebytime.text=cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_NOTES))
         //holder.howmuchsavebytime.text = "You need to save around ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()}/day, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/7)}/week, ${cursor.getDouble(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_AMOUNT))/(howManyDaysLeft(cursor.getString(cursor.getColumnIndexOrThrow(KumbaraDatabaseHelper.COLUMN_DEADLINE))).toDouble()/30)}/month."
         }
 
@@ -141,7 +144,7 @@ class RecyclerAdapter(private val context: Context) :
                 val inflater = LayoutInflater.from(context)
                 val dialogLayout = inflater.inflate(R.layout.editpagelayout, null)
                 val alertDialog = builder.setView(dialogLayout).show()
-
+                alertDialog.setCancelable(true)
                 val editgoalTitle=dialogLayout.findViewById<TextInputEditText>(R.id.editGoalTitle)
                 val editTargetAmount=dialogLayout.findViewById<TextInputEditText>(R.id.edittargetAmount)
                 val editDeadline=dialogLayout.findViewById<TextInputEditText>(R.id.editdeadline)
@@ -154,7 +157,7 @@ class RecyclerAdapter(private val context: Context) :
                 editNotes.text= Editable.Factory.getInstance().newEditable(oldNotes)
 
                 editGoalBtn.setOnClickListener {
-                    if (editgoalTitle.text.toString().isNullOrEmpty()||editTargetAmount.text.toString().isNullOrEmpty()){
+                    if (editgoalTitle.text.toString().isEmpty()||editTargetAmount.text.toString().isEmpty()){
                         Toast.makeText(context, "Please input all the required fields.", Toast.LENGTH_SHORT).show()
                     }else{
                         db.editGoal(holder.id.text.toString().toInt(),editgoalTitle.text.toString(),editTargetAmount.text.toString(),editDeadline.text.toString(),editNotes.text.toString())
@@ -207,8 +210,6 @@ class RecyclerAdapter(private val context: Context) :
 
         return daysLeft.toString()
     }
-
-
 
 
 

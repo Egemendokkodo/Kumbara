@@ -24,11 +24,6 @@ import java.util.*
 class AddFragment : Fragment(){
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -64,8 +59,7 @@ class AddFragment : Fragment(){
 
         saveGoal.setOnClickListener {
             if (goalTitle.text.isNullOrEmpty() || targetAmount.text.isNullOrEmpty()){
-                val cursor = db.getAllData()
-
+               /* val cursor = db.getAllData()
                 if (cursor != null && cursor.moveToFirst()) {
                     do {
                         val idIndex = cursor.getColumnIndex(COLUMN_ID)
@@ -90,8 +84,7 @@ class AddFragment : Fragment(){
                         Log.d("DATABASE RESPONSE", "ID: $id, Title: $title, Amount: $amount, Deadline: $deadline, Notes: $notes, Saved Money: $savedMoney")
                     } while (cursor.moveToNext())
                 }
-
-                cursor?.close()
+                cursor?.close()*/
                 Toast.makeText(requireActivity(), "Please input all the required fields", Toast.LENGTH_SHORT).show()
             }else{
 
@@ -141,7 +134,7 @@ class AddFragment : Fragment(){
 
 
     private fun changeFragment(fragment: Fragment){
-        val fragmentTransaction = getParentFragmentManager().beginTransaction()
+        val fragmentTransaction = parentFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
