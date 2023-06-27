@@ -2,6 +2,7 @@ package com.uygulamalarim.kumbara.Fragments
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +14,11 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class MainFragment : Fragment() {
     private lateinit var savingsrecycler:RecyclerView
     private lateinit var recyclerAdapter: RecyclerAdapter
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
     }
 
@@ -35,6 +38,8 @@ class MainFragment : Fragment() {
 
         requireFragmentManager().beginTransaction().detach(this).attach(this).commit()
 
+
+
         savingsrecycler = requireView().findViewById(R.id.savingsrecycler)
         recyclerAdapter = RecyclerAdapter(requireContext())
         savingsrecycler.adapter = recyclerAdapter
@@ -50,6 +55,11 @@ class MainFragment : Fragment() {
             animationView.pauseAnimation()
         }
 
+
+
+        newgoalbtn.setOnClickListener{
+            changeFragment(AddFragment())
+        }
 
 
 
