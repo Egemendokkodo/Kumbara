@@ -39,6 +39,7 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="#00868b"
             app:endIconMode="clear_text"
             app:startIconDrawable="@drawable/money_bag">
 

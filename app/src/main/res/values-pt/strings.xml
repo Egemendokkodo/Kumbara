@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--TODO:: BU KISIMDA İNGİLİZCEDEN PORTEKİSCEYE ÇEVRİM YAPILACAK, BEN PORTEKİZCE BİLMİYORUM. -->
+<!--TODO:: ÖRNEK::  <string name="new_goal">(New Goal silinecek ve yerine portekizcedeki karşılığı yazılacak, yanlız name="new_goal" değeri silinmeyecek veya değiştirilmeyecek haberin olsun. )New Goal</string>-->
+<!-- Bazı ingilizce değerleri değiştiremedim çünkü cümle içinde kullandığım değişkenler var.-->
 <resources>
     <string name="app_name">Kumbara</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -67,5 +73,4 @@
     <string name="please_enter_the_new_username">Please enter the new username</string>
     <string name="enter_username">Enter username</string>
     <string name="change_currency">Change Currency</string>
-
 </resources>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Kumbara</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -67,5 +68,4 @@
     <string name="please_enter_the_new_username">Please enter the new username</string>
     <string name="enter_username">Enter username</string>
     <string name="change_currency">Change Currency</string>
-
 </resources>

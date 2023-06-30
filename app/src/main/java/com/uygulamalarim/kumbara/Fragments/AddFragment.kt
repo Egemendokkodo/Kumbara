@@ -9,15 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper
-import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper.Companion.COLUMN_AMOUNT
-import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper.Companion.COLUMN_DEADLINE
-import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper.Companion.COLUMN_ID
-import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper.Companion.COLUMN_NOTES
-import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper.Companion.COLUMN_SAVED_MONEY
-import com.uygulamalarim.kumbara.Database.KumbaraDatabaseHelper.Companion.COLUMN_TITLE
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.uygulamalarim.kumbara.R
 import kotlinx.android.synthetic.main.fragment_add.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -34,7 +31,6 @@ class AddFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val db = KumbaraDatabaseHelper(requireActivity())
 
         val deadline = view.findViewById<EditText>(R.id.deadline)
         deadline.setOnFocusChangeListener { _, hasFocus ->
@@ -59,65 +55,64 @@ class AddFragment : Fragment(){
 
         saveGoal.setOnClickListener {
             if (goalTitle.text.isNullOrEmpty() || targetAmount.text.isNullOrEmpty()){
-               /* val cursor = db.getAllData()
-                if (cursor != null && cursor.moveToFirst()) {
-                    do {
-                        val idIndex = cursor.getColumnIndex(COLUMN_ID)
-                        val id = if (idIndex != -1) cursor.getInt(idIndex) else -1
 
-                        val titleIndex = cursor.getColumnIndex(COLUMN_TITLE)
-                        val title = if (titleIndex != -1) cursor.getString(titleIndex) else null
-
-                        val amountIndex = cursor.getColumnIndex(COLUMN_AMOUNT)
-                        val amount = if (amountIndex != -1) cursor.getDouble(amountIndex) else -1.0
-
-                        val deadlineIndex = cursor.getColumnIndex(COLUMN_DEADLINE)
-                        val deadline = if (deadlineIndex != -1) cursor.getString(deadlineIndex) else null
-
-                        val notesIndex = cursor.getColumnIndex(COLUMN_NOTES)
-                        val notes = if (notesIndex != -1) cursor.getString(notesIndex) else null
-
-                        val savedMoneyIndex = cursor.getColumnIndex(COLUMN_SAVED_MONEY)
-                        val savedMoney = if (savedMoneyIndex != -1) cursor.getDouble(savedMoneyIndex) else -1.0
-
-
-                        Log.d("DATABASE RESPONSE", "ID: $id, Title: $title, Amount: $amount, Deadline: $deadline, Notes: $notes, Saved Money: $savedMoney")
-                    } while (cursor.moveToNext())
-                }
-                cursor?.close()*/
-                Toast.makeText(requireActivity(), "Please input all the required fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), getString(R.string.input_required), Toast.LENGTH_SHORT).show()
             }else{
 
-                db.insertData(goalTitle.text.toString(),targetAmount.text.toString(), deadline.text.toString(),notes.text.toString())
-                val cursor = db.getAllData()
+                //todo:: burada firebase e savingsleri ekle
 
-                if (cursor != null && cursor.moveToFirst()) {
-                    do {
-                        val idIndex = cursor.getColumnIndex(COLUMN_ID)
-                        val id = if (idIndex != -1) cursor.getInt(idIndex) else -1
-
-                        val titleIndex = cursor.getColumnIndex(COLUMN_TITLE)
-                        val title = if (titleIndex != -1) cursor.getString(titleIndex) else null
-
-                        val amountIndex = cursor.getColumnIndex(COLUMN_AMOUNT)
-                        val amount = if (amountIndex != -1) cursor.getDouble(amountIndex) else -1.0
-
-                        val deadlineIndex = cursor.getColumnIndex(COLUMN_DEADLINE)
-                        val deadline = if (deadlineIndex != -1) cursor.getString(deadlineIndex) else null
-
-                        val notesIndex = cursor.getColumnIndex(COLUMN_NOTES)
-                        val notes = if (notesIndex != -1) cursor.getString(notesIndex) else null
-
-                        val savedMoneyIndex = cursor.getColumnIndex(COLUMN_SAVED_MONEY)
-                        val savedMoney = if (savedMoneyIndex != -1) cursor.getDouble(savedMoneyIndex) else -1.0
+                val user = Firebase.auth.currentUser
+                user?.let {
+                    val email = it.email
+                    val collectionRef = FirebaseFirestore.getInstance().collection("user-data")
+                    collectionRef.whereEqualTo("email", email.toString())
+                        .get()
+                        .addOnSuccessListener { querySnapshot ->
+                            if (!querySnapshot.isEmpty) {
+                                for (document in querySnapshot.documents) {
+                                    val username = document.getString("username")
+                                    val currencyIcon = document.getString("currencyIcon")
+                                    val currencyName = document.getString("currencyName")
+                                    val email = document.getString("email")
 
 
-                        Log.d("DATABASE RESPONSE FOR EDİT PAGE", "ID: $id, Title: $title, Amount: $amount, Deadline: $deadline, Notes: $notes, Saved Money: $savedMoney")
-                    } while (cursor.moveToNext())
+                                    val currentTime = Date().time
+                                    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                                    val formattedTime = sdf.format(currentTime)
+                                    val transaction = hashMapOf(
+                                        "description" to getString(R.string.you_created_this_on)+"$formattedTime"
+                                    )
+
+                                    val goalData = hashMapOf(
+                                        "target-amount" to targetAmount.text.toString(),
+                                        "deadline" to deadline.text.toString(),
+                                        "notes" to notes.text.toString(),
+                                        "goal-title" to goalTitle.text.toString(),
+                                        "current-money" to "0",
+                                        "transactions" to mutableListOf(transaction)
+                                    )
+
+                                    val documentRef = collectionRef.document(document.id)
+                                    documentRef.update("goals.${goalTitle.text}", goalData)
+                                        .addOnSuccessListener {
+                                            changeFragment(MainFragment())
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            Toast.makeText(requireContext(), "something went wrong.", Toast.LENGTH_SHORT).show()
+                                        }
+                                }
+                            } else {
+
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+
+                        }
                 }
 
-                cursor?.close()
-                changeFragment(MainFragment())
+
+
+
             }
 
         }
@@ -135,7 +130,7 @@ class AddFragment : Fragment(){
 
     private fun changeFragment(fragment: Fragment){
         val fragmentTransaction = parentFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.replace(R.id.fragmentHolderFrameLayout, fragment)
         fragmentTransaction.commit()
     }
 
